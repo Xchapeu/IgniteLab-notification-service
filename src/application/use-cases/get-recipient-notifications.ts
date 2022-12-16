@@ -19,9 +19,9 @@ export class GetRecipientNotifications {
     async execute(request: GetRecipientNotificationsRequest): Promise<GetRecipientNotificationsResponse> {
         const { recipientId } = request;
 
-        const count = await this.notificationsRepository.countManyByRecipientId(recipientId);
+        const notifications = await this.notificationsRepository.findManyByRecipientId(recipientId);
 
-        return { count };
+        return { notifications };
 
     }
 }

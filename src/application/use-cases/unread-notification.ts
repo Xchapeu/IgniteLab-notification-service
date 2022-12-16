@@ -4,19 +4,19 @@ import { NotificationsRepository } from "../repositories/notifications-repositor
 import { NotificationNotFound } from "./errors/notification-not-found";
 
 
-interface CancelNotificationRequest {
+interface UnreadNotificationRequest {
     notificationId: string;
 
 }
 
-type CancelNotificationResponse = void;
+type UnreadNotificationResponse = void;
 
 @Injectable ()
-export class CancelNotification {
+export class UnreadNotification {
 
     constructor(private notificationsRepository: NotificationsRepository) {}
 
-    async execute(request: CancelNotificationRequest): Promise<CancelNotificationResponse> {
+    async execute(request: UnreadNotificationRequest): Promise<UnreadNotificationResponse> {
         const { notificationId } = request;
 
         const notification = await this.notificationsRepository.findById(notificationId);
@@ -25,7 +25,7 @@ export class CancelNotification {
             throw new NotificationNotFound();
         }
 
-        notification.cancel();
+        notification.unread();
 
         await this.notificationsRepository.save(notification);
     }
